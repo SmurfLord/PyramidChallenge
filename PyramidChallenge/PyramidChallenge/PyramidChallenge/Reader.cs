@@ -1,39 +1,40 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace PyramidChallenge
 {
     public class Reader
     {
-        public int[,] ReadInput(string filename)
+        public Node[,] ReadInput(string filename)
         {
-            string[] lines = File.ReadAllLines(filename);
-            int[,] triangleInput = new int[lines.Length, lines.Length];
-            int c = 0;
+            Node rootNode = null;
+            List<Node> children = new List<Node>();
 
-            foreach (string line in lines)
+            using (var sr = new StreamReader(filename))
             {
-                int r = 0;
-                var numbers = line.Split(' ');
-                for (int i = 0; i < numbers.Length; i++)
+                string line;
+                while ((line = sr.ReadLine()) != null)
                 {
-                    var number = int.Parse(numbers[i]);
-                    bool shouldBeEven;
+                    var numbers = ParseLine(line);
 
-                    if (c > 0)
-                        shouldBeEven = !(triangleInput[c - 1, 0] % 2 == 0);
-                    else
-                        shouldBeEven = number % 2 == 0;
 
-                    if ((number % 2 == 0) == shouldBeEven)
+
+                    foreach (var item in numbers)
                     {
-                        triangleInput[c, r] = number;
-                        r++;
+                        var rootNode
                     }
+
                 }
-                c++;
             }
 
-            return triangleInput;
+        }
+
+
+        private IList<int> ParseLine(string line)
+        {
+            return line.Split(' ').Select(p => Convert.ToInt32(p));
         }
     }
 }
