@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 
 namespace PyramidChallenge.Test
 {
@@ -8,17 +9,22 @@ namespace PyramidChallenge.Test
         [TestMethod]
         public void GivenInputTriangle_OnGetTriangle_ValidateInputIsFiltered()
         {
-            var reader = new Reader();
-            var res = reader.ReadInput(@"C:\Users\Bibi\Desktop\Git\PyramidChallenge\PyramidChallenge\PyramidChallenge\PyramidChallenge.Test\TestInput.txt");
-            Assert.AreEqual(4, res.GetLength(0));
-            Assert.AreEqual(1, res[0, 0]);
-            Assert.AreEqual(8, res[1, 0]);
-            Assert.AreEqual(1, res[2, 0]);
-            Assert.AreEqual(5, res[2, 1]);
-            Assert.AreEqual(9, res[2, 2]);
-            Assert.AreEqual(4, res[3, 0]);
-            Assert.AreEqual(2, res[3, 1]);
 
+            var reader = new Reader();
+            var tree = reader.ReadInput(@"./TestInput.txt");
+
+            AssertNodeValue(tree, 8, 9);
+            AssertNodeValue(tree.Left, 1, 5);
+            AssertNodeValue(tree.Left.Left, 4, 5);
+            AssertNodeValue(tree.Left.Right, 5, 2);
+
+            tree.Left.Left.Left.Left.Should().BeNull();
+        }
+
+        public void AssertNodeValue(Node node, int left, int right)
+        {
+            node.Left.Value.Should().Be(left);
+            node.Right.Value.Should().Be(right);
         }
     }
 }

@@ -7,34 +7,45 @@ namespace PyramidChallenge
 {
     public class Reader
     {
-        public Node[,] ReadInput(string filename)
+        public Node ReadInput(string filename)
         {
-            Node rootNode = null;
-            List<Node> children = new List<Node>();
 
+            Node rootNode = null;
+            
             using (var sr = new StreamReader(filename))
             {
-                string line;
-                while ((line = sr.ReadLine()) != null)
+                IList<Node> currentLineNumbers, nextLine;
+                currentLineNumbers = ParseLine(sr.ReadLine());
+                rootNode = currentLineNumbers.FirstOrDefault();
+
+                do
                 {
-                    var numbers = ParseLine(line);
+                    nextLine = ParseLine(sr.ReadLine());
 
-
-
-                    foreach (var item in numbers)
+                    if (nextLine != null)
                     {
-                        var rootNode
+                        for (int i = 0; i < currentLineNumbers.Count; i++)
+                        {
+                            Insert(i, currentLineNumbers, nextLine);
+                        }
                     }
-
+                   
+                    currentLineNumbers = nextLine;
                 }
+                while (currentLineNumbers != null);
             }
-
+            return rootNode;
         }
 
-
-        private IList<int> ParseLine(string line)
+        private void Insert(int i, IList<Node> numbers, IList<Node> next)
         {
-            return line.Split(' ').Select(p => Convert.ToInt32(p));
+            numbers[i].Left = next[i];
+            numbers[i].Right = next[i + 1];
+        }
+
+        private IList<Node> ParseLine(string line)
+        {
+            return line?.Split(' ').Select(p => new Node() { Value = Convert.ToInt32(p) }).ToList();
         }
     }
 }
