@@ -5,32 +5,34 @@ using System.Linq;
 
 namespace PyramidChallenge
 {
-    public class Reader
+    public class NodeReader
     {
         public Node ReadInput(string filename)
         {
+            if (string.IsNullOrEmpty(filename))
+                throw new ArgumentNullException("The file is empty.");
 
             Node rootNode = null;
-            
+
             using (var sr = new StreamReader(filename))
             {
-                IList<Node> currentLineNumbers, nextLine;
+                IList<Node> currentLineNumbers, nextLineNumbers;
                 currentLineNumbers = ParseLine(sr.ReadLine());
                 rootNode = currentLineNumbers.FirstOrDefault();
 
                 do
                 {
-                    nextLine = ParseLine(sr.ReadLine());
+                    nextLineNumbers = ParseLine(sr.ReadLine());
 
-                    if (nextLine != null)
+                    if (nextLineNumbers != null)
                     {
                         for (int i = 0; i < currentLineNumbers.Count; i++)
                         {
-                            Insert(i, currentLineNumbers, nextLine);
+                            Insert(i, currentLineNumbers, nextLineNumbers);
                         }
                     }
-                   
-                    currentLineNumbers = nextLine;
+
+                    currentLineNumbers = nextLineNumbers;
                 }
                 while (currentLineNumbers != null);
             }
@@ -45,7 +47,14 @@ namespace PyramidChallenge
 
         private IList<Node> ParseLine(string line)
         {
-            return line?.Split(' ').Select(p => new Node() { Value = Convert.ToInt32(p) }).ToList();
+            return line?.Split(' ').Select(p => new Node() { Value = this.ParseNumber(p) }).ToList();
+        }
+
+        private int ParseNumber(string value)
+        {
+            if (Int32.TryParse(value, out var result) == false)
+                throw new ArgumentException("The file used contains invalid data.");
+            return result;
         }
     }
 }

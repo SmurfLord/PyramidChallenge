@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -7,15 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="TestInput.txt" />
-    <None Remove="TestPyramid.txt" />
+    <None Remove="Data\InvalidExample.txt" />
+    <None Remove="Data\MadeUpExample.txt" />
+    <None Remove="ExerciseExample.txt" />
+    <None Remove="MadeUpExample.txt" />
+    <None Remove="PyramidChallenge.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="TestInput.txt">
+    <Content Include="Data\ExerciseExample.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestPyramid.txt">
+    <Content Include="Data\MadeUpExample.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\EmptyExample.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\InvalidExample.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\PyramidChallenge.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -33,7 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ReaderTest.cs">
+    <Compile Update="Readers.Test\NodeReaderTest.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
